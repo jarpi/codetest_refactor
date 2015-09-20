@@ -54,16 +54,9 @@ function GenerateMultPromises(arr, evenValue) {
 	}; 
 
 function GenerateSubstractPromises(arr, resultToSubstract) {
-		var ps = []; 
-		console.log("AAAAA" + resultToSubstract); 
-		console.log("BBBBB " + arr); 
-		for (var j=0; j<arr.length; j+=1) {
-			ps.push(substractPromise(resultToSubstract, arr[j]))
-		}
-		return Promise.all(ps)
-		.then(function(values) {
-			console.dir(values); 
-			return values[values.length-1]; 
+		var p = GenerateSumPromises(arr); 
+		return p.then(function(sum){
+			return substractPromise(resultToSubstract, sum); 
 		}); 
 	}; 
 
@@ -84,7 +77,8 @@ var promiseArr = GenerateSumPromises(theItems);
  	var theItemsEvenValues = theItems.filter(function(c){
  		return (c%2!==0?c:null)
  	}); 
- 	console.log(theItemsEvenValues); 
+ 	console.log("CCCCC " + theItemsEvenValues); 
+ 	console.log("DDDDD " + sumValue); 
  	return GenerateSubstractPromises(theItemsEvenValues, sumValue); 
  })
  .then(function(subValue){
