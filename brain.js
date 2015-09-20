@@ -80,4 +80,3 @@ var brain = new SpaghettiBrain(name);
 for (var i = 0; i < 100; i++) {
     brain.talk();
 }
-
