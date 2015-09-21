@@ -1,10 +1,9 @@
-function SpaghettiBrain(text) {
-    var characters = text.split('');
+function SpaghettiBrain() {
+    var characters = []; 
     var thoughts = [];
 
     this.think = function() {
-        
-        var item = parseInt(Math.random() * characters.length, 10);
+        var item = parseInt(Math.random() * characters.length);
         var thought = characters[item];
 
         (existsThought(thought)?
@@ -17,27 +16,28 @@ function SpaghettiBrain(text) {
         console.log('Hi hero, i think that: ' + this.think());
     };
 
+    this.SpaghettiName = function(amount) { 
+        characters = generateSpaghettiName(amount); 
+        return characters.join(); 
+    }
+
+    function generateSpaghettiName(amount) {
+        var name = []; 
+        for (var i = 0; i < amount; i++)
+            name.push(
+                String.fromCharCode( 97 + 
+                    parseInt( Math.round(Math.random() * 25)) 
+                )
+            ); 
+        return name; 
+    } 
+
     function addThought(th) { thoughts.push(th) }; 
     function existsThought(th) { return (thoughts.indexOf(th)>-1) }; 
 }
 
-function SpaghettiName(amount) {
-    var results = [];
-    for (var i = 0; i < amount; i++) {
-        results.push( Math.floor(Math.random() * 25) );
-    }
-
-    var myName = results.reduce(
-        function(p,c) {
-            return p+= String.fromCharCode( 97 + parseInt(c,10) );
-        }
-        ,'');
-    return myName;
-}
-
-var name = SpaghettiName(30);
-var brain = new SpaghettiBrain(name);
-console.dir(brain); 
-for (var i = 0; i < name.length; i++) {
+var brain = new SpaghettiBrain();
+var name = brain.SpaghettiName(30); 
+for (var i = 0; i < 100; i++) {
     brain.talk();
 }
