@@ -7,17 +7,15 @@ function PromiseConsumer(promisifier, theItems) {
 	//**** Private methods ***
 	//************************ 
 	function GenerateSumPromises(arr) {
-			var ps = []; 
-			for (var j=0; j<arr.length; j+=2) {
+			var ps = [];
+ 			for (var j=0; j<arr.length; j+=2) {
 				ps.push(promisifier.sumPromise(arr[j],(arr[j+1]||0)))
-			}
+			} 
 			return Promise.all(ps)
 			.then(function(values) {
-				if (values.length>1) {
-					return GenerateSumPromises(values); 
-				}  else {
-					return values[0];  
-				} 
+				return values.reduce(function(p, c) {
+					return p+c; 
+				}); 
 			}); 
 		}; 
 	 
@@ -37,7 +35,7 @@ function PromiseConsumer(promisifier, theItems) {
 		}; 
 
 	function GenerateSubstractPromises(arr, resultToSubstract) {
-			var p = GenerateSumPromises(arr); 
+			var p = GenerateSumPromises(arr);
 			return p.then(function(sum){
 				return promisifier.substractPromise(resultToSubstract, sum); 
 			}); 
